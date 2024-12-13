@@ -46,41 +46,16 @@ export function NewTransactionDialog() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: TransactionForm) => {
-      const response = await fetch("/api/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
+  const { createTransaction } = useTransactions();
 
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      toast({
-        title: "Success",
-        description: "Transaction created successfully",
-      });
+  async function onSubmit(data: TransactionFormData) {
+    try {
+      await createTransaction(data);
       setOpen(false);
       form.reset();
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
-    },
-  });
-
-  function onSubmit(data: TransactionForm) {
-    mutation.mutate(data);
+    } catch (error) {
+      // Error is handled by the mutation
+    }
   }
 
   return (
