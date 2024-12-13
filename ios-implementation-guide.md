@@ -304,19 +304,30 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
    - Document code with clear comments
 
 3. Initial Setup Steps:
-   a. Create Xcode Project:
+   a. Prerequisites:
+      1. Install Latest Xcode from Mac App Store
+      2. Apple Developer Account (Free or Paid)
+      3. macOS Ventura or later
+      4. At least 20GB free disk space
+
+   b. Create Xcode Project:
       1. Open Xcode
       2. Choose "Create a new Xcode project"
       3. Select "App" under iOS
       4. Fill in project details:
          - Product Name: "SOLVY"
          - Team: Your Apple Developer Team
-         - Organization Identifier: Your org ID
-         - Bundle Identifier: Will be auto-generated
+         - Organization Identifier: "com.solvy"
+         - Bundle Identifier: "XC S A -Nathan SS-sub-Project (S.A.-Nathan.SS-sub-Project)"
          - Interface: SwiftUI
          - Language: Swift
+         - Storage: Use Core Data
          - Include Tests: Yes
-      5. Choose project location
+      5. Choose project location: Create a new folder named "SOLVY-iOS"
+      6. After project creation:
+         - Open the project navigator (⌘1)
+         - Review the project settings
+         - Set deployment target to iOS 15.0
 
    b. Configure Git:
       1. Initialize Git repository
