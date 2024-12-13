@@ -46,7 +46,7 @@ export function NewTransactionDialog() {
   const form = useForm<TransactionForm>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      amount: "",
+      amount: "0",
       type: "deposit",
       description: "",
     },
