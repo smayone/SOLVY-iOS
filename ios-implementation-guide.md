@@ -117,91 +117,109 @@ struct Transaction: Codable {
 4. Implement dynamic type for accessibility
 
 ## Web3 Integration Guide
+This guide will help you understand how to connect your SOLVY app to the blockchain world. We'll explain everything step by step, in simple terms.
 
-### Understanding Web3 Basics
-1. What is Web3?
-   - Web3 is the decentralized version of the internet
-   - Built on blockchain technology
-   - Enables direct user ownership and control
+### What You Need to Know First
 
-2. What is solvy.chain?
-   - Your Web3 domain for the SOLVY application
-   - Provides decentralized access to your app
-   - Works like a traditional domain but on the blockchain
+#### What is Web3? 🌐
+Think of Web3 as a new kind of internet where:
+- You own your data (like your profile and transactions)
+- No single company controls everything
+- Everything is more secure and transparent
+- You can prove you own digital things (like your account)
 
-### Integration Steps
+#### What is solvy.chain? 🔗
+- It's like a website address (like www.google.com) but for blockchain
+- Instead of .com, it ends with .chain
+- It's YOUR special address for the SOLVY app
+- It's more secure than regular website addresses
 
-1. Basic Setup
-   - Install Web3Swift library
-   ```swift
-   // In your Package.swift
-   dependencies: [
-       .package(url: "https://github.com/web3swift-team/web3swift.git", from: "3.0.0")
-   ]
-   ```
+### How We'll Add This to Your App
 
-2. Domain Resolution
-   - Connect to solvy.chain domain
-   - Implement name resolution
-   ```swift
-   class Web3Service {
-       func resolveDomain() async throws -> String {
-           // Implementation for resolving solvy.chain
-           // Will be implemented in detail during development
-       }
-   }
-   ```
+#### Step 1: Getting Started 📱
+First, we'll add the tools we need:
+```swift
+// This helps us talk to the blockchain
+import Web3Swift
 
-3. Wallet Integration
-   - Support multiple wallet connections
-   - Handle wallet authentication
-   - Basic wallet connection example:
-   ```swift
-   class WalletManager {
-       func connectWallet() async throws {
-           // Wallet connection logic
-           // Will be expanded during implementation
-       }
-   }
-   ```
+// Your basic setup will look like this:
+class BlockchainHelper {
+    // This will hold your app's connection to the blockchain
+    let web3 = Web3.init()
+    
+    // More code will be added here as we build features
+}
+```
 
-### Implementation Timeline
-1. Phase 1: Basic Web3 Setup
-   - Set up Web3Swift
-   - Implement basic blockchain interactions
-   - Test connection to solvy.chain
+#### Step 2: Connecting to solvy.chain 🔌
+We'll create simple functions to use your domain:
+```swift
+class DomainManager {
+    // This checks if solvy.chain is working
+    func checkDomain() {
+        // We'll add the actual code here later
+        // It will be explained step by step
+        print("Checking solvy.chain connection...")
+    }
+}
+```
 
-2. Phase 2: Wallet Integration
-   - Add wallet connection support
-   - Implement transaction signing
-   - Test with test networks
+#### Step 3: Adding a Wallet 👛
+A wallet is like a bank account for blockchain. Here's how we'll add it:
+```swift
+class WalletManager {
+    // This will let users connect their wallet
+    func connectWallet() {
+        // We'll add more code here later
+        // It will handle connecting to wallets
+        print("Connecting to wallet...")
+    }
+}
+```
 
-3. Phase 3: Full Integration
-   - Connect to mainnet
-   - Implement production features
-   - Final testing and security audit
+### When We'll Build Each Part 📅
 
-### Learning Resources
-1. Beginner Resources:
-   - Web3Swift documentation
-   - Basic blockchain concepts
-   - Wallet integration tutorials
+1. First Week:
+   - Add the basic tools
+   - Make sure we can connect to blockchain
+   - Test that solvy.chain works
 
-2. Advanced Topics:
-   - Smart contract interaction
-   - Transaction handling
-   - Security best practices
+2. Second Week:
+   - Add the wallet connection
+   - Let users sign in with their wallet
+   - Make sure everything is secure
 
-### Security Considerations
-1. Secure Storage
-   - Private key management
-   - Secure enclave usage
-   - Keychain integration
+3. Final Week:
+   - Connect everything together
+   - Test that it all works
+   - Make sure it's ready for the App Store
 
-2. User Privacy
-   - Data encryption
-   - Secure communications
-   - Privacy policy compliance
+### Helpful Resources 📚
+
+#### For Beginners:
+1. Start Here:
+   - Watch "Intro to Web3" videos on YouTube
+   - Read the Web3Swift getting started guide
+   - Try some basic blockchain apps
+
+2. Next Steps:
+   - Learn about wallets
+   - Understand basic blockchain security
+   - Practice with test networks (they're free and safe to use)
+
+### Keeping Everything Safe 🔒
+
+1. Protecting User Data:
+   - We'll store sensitive information securely
+   - Everything will be encrypted
+   - We'll follow Apple's security guidelines
+
+2. Testing:
+   - We'll test everything thoroughly
+   - Start with test networks (no real money involved)
+   - Move to real networks only when everything is perfect
+
+Remember: We'll take this step by step, and you can ask questions anytime! 😊
 
 ## Required Dependencies
 
