@@ -259,16 +259,76 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
      * Include Tests: Yes
    - Project Structure:
      * /Models (Data models and CoreData entities)
+       - Transaction.swift (Transaction model)
+       - User.swift (User model)
+       - CoreDataModels.xcdatamodeld (Core Data schema)
      * /Views (SwiftUI views)
+       - Authentication
+         - LoginView.swift (Login screen)
+         - RegisterView.swift (Registration screen)
+       - Dashboard
+         - DashboardView.swift (Main dashboard)
+         - TransactionListView.swift (List of transactions)
+         - TransactionDetailView.swift (Transaction details)
+       - Components
+         - ChartView.swift (Reusable chart component)
+         - LoadingView.swift (Loading indicator)
      * /ViewModels (Business logic)
+       - AuthViewModel.swift (Authentication logic)
+       - TransactionViewModel.swift (Transaction management)
+       - DashboardViewModel.swift (Dashboard data)
      * /Services (API and Web3 services)
+       - NetworkService.swift (API client)
+       - Web3Service.swift (Blockchain integration)
+       - CoreDataService.swift (Local storage)
      * /Utilities (Helper functions)
+       - Constants.swift (App-wide constants)
+       - Extensions.swift (Swift extensions)
+       - Formatters.swift (Date and number formatting)
      * /Resources (Assets and configuration)
+       - Assets.xcassets (Images and colors)
+       - Info.plist (App configuration)
    - Configure core dependencies:
      * SwiftUI for UI
      * Combine for reactive programming
      * CoreData for local storage
      * URLSession for networking
+
+2. Development Best Practices:
+   - Follow MVVM architecture pattern
+   - Use Swift Package Manager for dependencies
+   - Implement error handling and loading states
+   - Support offline functionality
+   - Follow Apple's Human Interface Guidelines
+   - Write unit tests for business logic
+   - Document code with clear comments
+
+3. Initial Setup Steps:
+   a. Create Xcode Project:
+      1. Open Xcode
+      2. Choose "Create a new Xcode project"
+      3. Select "App" under iOS
+      4. Fill in project details:
+         - Product Name: "SOLVY"
+         - Team: Your Apple Developer Team
+         - Organization Identifier: Your org ID
+         - Bundle Identifier: Will be auto-generated
+         - Interface: SwiftUI
+         - Language: Swift
+         - Include Tests: Yes
+      5. Choose project location
+
+   b. Configure Git:
+      1. Initialize Git repository
+      2. Create .gitignore for Xcode
+      3. Make initial commit
+
+   c. Set Up Dependencies:
+      1. File > Add Packages
+      2. Add required packages:
+         - Charts for visualization
+         - Web3Swift for blockchain
+         - KeychainAccess for secure storage
 
 2. Day 3-4: Core Features
    - Set up networking layer
@@ -302,8 +362,43 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
    - Polish animations
    - Prepare for App Store
 
+### Understanding the Architecture 🏗️
+
+#### 1. Data Flow
+- User interacts with Views
+- Views notify ViewModels
+- ViewModels process data and update Models
+- Services handle external communication
+- Models update and Views reflect changes
+
+#### 2. Component Responsibilities
+1. Views (SwiftUI)
+   - Display data to user
+   - Handle user input
+   - Show loading states
+   - Display error messages
+
+2. ViewModels
+   - Process user actions
+   - Format data for display
+   - Handle business logic
+   - Manage state
+
+3. Models
+   - Define data structure
+   - Store application data
+   - Handle data validation
+
+4. Services
+   - API communication
+   - Local data storage
+   - Blockchain interaction
+   - Error handling
+
 Remember:
 - We'll go step by step
 - Test each part before moving on
 - Keep things simple and clean
 - Ask questions whenever needed! 😊
+
+Let's start with the first step when you're ready! 🚀
