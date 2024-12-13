@@ -259,40 +259,74 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
      * Include Tests: Yes
    - Project Structure:
      * /Models (Data models and CoreData entities)
-       - Transaction.swift (Transaction model)
-       - User.swift (User model)
-       - CoreDataModels.xcdatamodeld (Core Data schema)
+        - Transaction.swift (Transaction model)
+        - User.swift (User model)
+        - CoreDataModels.xcdatamodeld (Core Data schema)
      * /Views (SwiftUI views)
-       - Authentication
-         - LoginView.swift (Login screen)
-         - RegisterView.swift (Registration screen)
-       - Dashboard
-         - DashboardView.swift (Main dashboard)
-         - TransactionListView.swift (List of transactions)
-         - TransactionDetailView.swift (Transaction details)
-       - Components
-         - ChartView.swift (Reusable chart component)
-         - LoadingView.swift (Loading indicator)
+        - Authentication
+          - LoginView.swift (Login screen)
+          - RegisterView.swift (Registration screen)
+        - Dashboard
+          - DashboardView.swift (Main dashboard)
+          - TransactionListView.swift (List of transactions)
+          - TransactionDetailView.swift (Transaction details)
+        - Components
+          - ChartView.swift (Reusable chart component)
+          - LoadingView.swift (Loading indicator)
+          - ErrorView.swift (Error handling view)
+          - EmptyStateView.swift (Empty state placeholder)
      * /ViewModels (Business logic)
-       - AuthViewModel.swift (Authentication logic)
-       - TransactionViewModel.swift (Transaction management)
-       - DashboardViewModel.swift (Dashboard data)
+        - AuthViewModel.swift (Authentication logic)
+        - TransactionViewModel.swift (Transaction management)
+        - DashboardViewModel.swift (Dashboard data)
+        - AppStateViewModel.swift (Global app state)
      * /Services (API and Web3 services)
-       - NetworkService.swift (API client)
-       - Web3Service.swift (Blockchain integration)
-       - CoreDataService.swift (Local storage)
+        - NetworkService.swift (API client)
+        - Web3Service.swift (Blockchain integration)
+        - CoreDataService.swift (Local storage)
+        - KeychainService.swift (Secure storage)
+        - AnalyticsService.swift (Usage tracking)
      * /Utilities (Helper functions)
-       - Constants.swift (App-wide constants)
-       - Extensions.swift (Swift extensions)
-       - Formatters.swift (Date and number formatting)
+        - Constants.swift (App-wide constants)
+        - Extensions.swift (Swift extensions)
+        - Formatters.swift (Date and number formatting)
+        - Logger.swift (Custom logging)
+        - Environment.swift (Environment configuration)
      * /Resources (Assets and configuration)
-       - Assets.xcassets (Images and colors)
-       - Info.plist (App configuration)
+        - Assets.xcassets (Images and colors)
+        - Info.plist (App configuration)
+        - Colors.xcassets (Custom color palette)
+        - Localizable.strings (Localization)
    - Configure core dependencies:
      * SwiftUI for UI
      * Combine for reactive programming
      * CoreData for local storage
      * URLSession for networking
+3. Initial Setup Steps:
+   a. Prerequisites:
+      1. Install Latest Xcode from Mac App Store
+      2. Apple Developer Account (Free or Paid)
+      3. macOS Ventura or later
+      4. At least 20GB free disk space
+
+   b. Create Xcode Project:
+      1. Open Xcode
+      2. Choose "Create a new Xcode project"
+      3. Select "App" under iOS
+      4. Fill in project details:
+         - Product Name: "SOLVY"
+         - Team: Your Apple Developer Team
+         - Organization Identifier: "com.solvy"
+         - Bundle Identifier: "XC S A -Nathan SS-sub-Project (S.A.-Nathan.SS-sub-Project)"
+         - Interface: SwiftUI
+         - Language: Swift
+         - Storage: Use Core Data
+         - Include Tests: Yes
+      5. Choose project location: Create a new folder named "SOLVY-iOS"
+      6. After project creation:
+         - Open the project navigator (⌘1)
+         - Review the project settings
+         - Set deployment target to iOS 15.0
 
 2. Development Best Practices:
    - Follow MVVM architecture pattern
