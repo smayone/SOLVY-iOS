@@ -4,7 +4,7 @@ export type TransactionStatus = "pending" | "completed" | "failed";
 export interface Transaction {
   id: number;
   userId: number;
-  amount: number;
+  amount: string | number;
   type: TransactionType;
   status: TransactionStatus;
   description?: string;
@@ -16,3 +16,11 @@ export interface TransactionSummary {
   totalVolume: number;
   avgAmount: number;
 }
+
+export const transactionSchema = z.object({
+  amount: z.string().transform((val) => parseFloat(val)),
+  type: z.enum(["deposit", "withdrawal", "transfer"]),
+  description: z.string().optional(),
+});
+
+export type TransactionFormData = z.infer<typeof transactionSchema>;

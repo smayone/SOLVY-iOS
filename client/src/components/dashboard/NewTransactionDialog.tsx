@@ -30,20 +30,14 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Plus } from "lucide-react";
 
-const transactionSchema = z.object({
-  amount: z.string().transform((val) => parseFloat(val)),
-  type: z.enum(["deposit", "withdrawal", "transfer"]),
-  description: z.string().optional(),
-});
-
-type TransactionForm = z.infer<typeof transactionSchema>;
+import { transactionSchema, type TransactionFormData } from "@/types/transaction";
 
 export function NewTransactionDialog() {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const form = useForm<TransactionForm>({
+  const form = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
       amount: "0",
