@@ -116,6 +116,36 @@ struct Transaction: Codable {
 3. Support both light and dark mode
 4. Implement dynamic type for accessibility
 
+## Web3 Integration
+
+1. Prepare for integration with solvy.chain domain
+2. Consider wallet connectivity options
+
+## Required Dependencies
+
+1. Charts
+   - SwiftUICharts or Charts framework for transaction visualization
+
+2. Networking
+   - URLSession for API calls
+   - Combine for reactive programming
+
+3. Security
+   - Keychain for secure storage
+   - CryptoKit for encryption
+
+4. Additional
+   - SwiftDate for date handling
+   - SDWebImage for image caching
+   - KeychainAccess for keychain wrapper
+
+## Design Guidelines
+
+1. Follow iOS Human Interface Guidelines
+2. Maintain SOLVY brand identity
+3. Support both light and dark mode
+4. Implement dynamic type for accessibility
+
 ## Next Steps
 
 1. Set up initial Xcode project
