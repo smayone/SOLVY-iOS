@@ -5,8 +5,6 @@ import { ArrowUpDown, CircleDollarSign, TrendingUp } from "lucide-react";
 export function MetricsCards() {
   const { summary } = useTransactions();
 
-  if (!summary) return null;
-
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <Card>
