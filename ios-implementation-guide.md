@@ -251,9 +251,24 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
 ### Week 1: Basic Setup and Structure
 1. Day 1-2: Project Setup
    - Create new Xcode project
-   - Set up SwiftUI
-   - Create folder structure
-   - Add basic dependencies
+     * Bundle ID: "XC S A -Nathan SS-sub-Project (S.A.-Nathan.SS-sub-Project)"
+     * iOS Deployment Target: iOS 15.0 or later
+     * Interface: SwiftUI
+     * Language: Swift
+     * Core Data: Yes (for offline support)
+     * Include Tests: Yes
+   - Project Structure:
+     * /Models (Data models and CoreData entities)
+     * /Views (SwiftUI views)
+     * /ViewModels (Business logic)
+     * /Services (API and Web3 services)
+     * /Utilities (Helper functions)
+     * /Resources (Assets and configuration)
+   - Configure core dependencies:
+     * SwiftUI for UI
+     * Combine for reactive programming
+     * CoreData for local storage
+     * URLSession for networking
 
 2. Day 3-4: Core Features
    - Set up networking layer
