@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @StateObject private var transactionViewModel = TransactionViewModel()
-@StateObject private var dashboardViewModel = DashboardViewModel()
+    @StateObject private var dashboardViewModel = DashboardViewModel()
     @State private var showingNewTransaction = false
     
     var body: some View {
@@ -66,7 +66,7 @@ struct DashboardView: View {
             }
             .padding()
             .onAppear {
-                viewModel.fetchTransactions()
+                transactionViewModel.fetchTransactions()
             }
             .navigationBarHidden(true)
         }

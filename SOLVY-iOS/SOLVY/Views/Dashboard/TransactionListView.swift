@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct TransactionListView: View {
     @StateObject private var viewModel = TransactionViewModel()
@@ -6,11 +7,11 @@ struct TransactionListView: View {
     @State private var selectedType: TransactionType?
     @State private var sortOrder: SortOrder = .newest
     
-    enum SortOrder {
-        case newest
-        case oldest
-        case highestAmount
-        case lowestAmount
+    enum SortOrder: String, CaseIterable {
+        case newest = "Newest First"
+        case oldest = "Oldest First"
+        case highestAmount = "Highest Amount"
+        case lowestAmount = "Lowest Amount"
     }
     
     private var filteredTransactions: [Transaction] {
