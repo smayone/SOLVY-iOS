@@ -764,10 +764,35 @@ Remember:
    - Blockchain interaction
    - Error handling
 
-Remember:
-- We'll go step by step
-- Test each part before moving on
-- Keep things simple and clean
-- Ask questions whenever needed! 😊
+### Testing the Blockchain Integration:
 
-Let's start with the first step when you're ready! 🚀
+1. Opening the Project:
+   - Open Xcode
+   - Navigate to the "SOLVY-iOS" folder
+   - Double-click "SOLVY.xcodeproj"
+   - Wait for project indexing to complete
+
+2. Running the Preview:
+   - In the Navigator (left sidebar), open Views > Dashboard > DashboardView.swift
+   - Click the "Resume" button in the preview canvas on the right
+   - You should see:
+     * A red/green status dot indicating blockchain connection
+     * A "Test Chain" button
+     * Transaction metrics and charts
+
+3. Testing the Integration:
+   - Click the "Test Chain" button
+   - Watch the console for transaction hash output
+   - The status indicator should turn green when connected
+   - Check transaction history for the test transaction
+
+4. Troubleshooting:
+   - If preview doesn't load: Clean build folder (Shift + Cmd + K)
+   - If connection fails: Check console for detailed error messages
+   - For API key issues: Verify KeychainService configuration
+
+Remember:
+- We're using the testnet configuration for development
+- All transactions are test transactions
+- Check the console log for detailed feedback
+- Ask questions if you need help! 😊
