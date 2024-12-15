@@ -448,6 +448,145 @@ Remember:
       2. Choose "Create a new Xcode project"
       3. Select "App" under iOS
       4. Fill in project details:
+#### 5. Blockchain Integration - Connecting to solvy.chain
+
+1. Web3 Service Setup:
+   ```swift
+   class Web3Service {
+       private let chainURL = "https://solvy.chain/endpoint"
+       private var provider: Web3Provider
+       
+       init() {
+           self.provider = Web3Provider(url: chainURL)
+       }
+       
+       func connect() async throws {
+           // Establish connection to solvy.chain
+           try await provider.connect()
+       }
+       
+       func sendTransaction(to: String, amount: Double) async throws -> String {
+           // Create and sign transaction
+           let transaction = Transaction(
+               to: to,
+               value: amount,
+               chainId: Chain.solvy.id
+           )
+           
+           return try await provider.sendTransaction(transaction)
+       }
+       
+       func monitorTransaction(hash: String) async throws -> TransactionStatus {
+           // Monitor transaction status
+           let receipt = try await provider.getTransactionReceipt(hash)
+           return receipt.status
+       }
+   }
+   ```
+
+2. Integration Points:
+   ```swift
+   class TransactionViewModel {
+       private let web3Service: Web3Service
+       
+       init(web3Service: Web3Service = Web3Service()) {
+           self.web3Service = web3Service
+       }
+       
+       func executeTransaction(amount: String, to: String) async throws {
+           // Validate input
+           guard let value = Double(amount) else {
+               throw TransactionError.invalidAmount
+           }
+           
+           // Send to blockchain
+           let hash = try await web3Service.sendTransaction(
+               to: to,
+               amount: value
+           )
+           
+           // Monitor status
+           let status = try await web3Service.monitorTransaction(hash: hash)
+           self.updateTransactionStatus(status)
+       }
+   }
+   ```
+
+3. Key Components:
+   - Chain Configuration
+     ```swift
+     enum Chain {
+         case solvy
+         
+         var id: Int {
+             switch self {
+             case .solvy:
+                 return 1 // Replace with actual chain ID
+             }
+         }
+         
+         var endpoint: URL {
+             switch self {
+             case .solvy:
+                 return URL(string: "https://solvy.chain/endpoint")!
+             }
+         }
+     }
+     ```
+
+   - Error Handling
+     ```swift
+     enum BlockchainError: Error {
+         case connectionFailed
+         case transactionFailed
+         case invalidAddress
+         case insufficientFunds
+     }
+     ```
+
+4. Security Considerations:
+   - Store private keys in Keychain
+   - Use secure connections (HTTPS)
+   - Implement proper error handling
+   - Validate all inputs
+   - Use testnet for development
+
+5. Best Practices:
+   - Cache blockchain data when possible
+   - Implement retry mechanisms
+   - Show loading states during blockchain operations
+   - Provide clear feedback to users
+   - Log important events
+
+6. Testing:
+   ```swift
+   class BlockchainTests: XCTestCase {
+       var web3Service: Web3Service!
+       
+       override func setUp() {
+           web3Service = Web3Service()
+       }
+       
+       func testConnection() async throws {
+           XCTAssertNoThrow(try await web3Service.connect())
+       }
+       
+       func testTransaction() async throws {
+           let hash = try await web3Service.sendTransaction(
+               to: "test_address",
+               amount: 1.0
+           )
+           XCTAssertNotNil(hash)
+       }
+   }
+   ```
+
+Remember:
+- Always test on testnet first
+- Handle network errors gracefully
+- Monitor transaction status
+- Keep private keys secure
+- Document all blockchain interactions
 #### 6. Testing Integration
 
 1. Unit Tests:
