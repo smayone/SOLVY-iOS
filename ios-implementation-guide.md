@@ -302,6 +302,140 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
      * Combine for reactive programming
      * CoreData for local storage
      * URLSession for networking
+### Blockchain Integration Guide (solvy.chain)
+
+#### 1. Web3 Setup
+1. Dependencies:
+   - Web3Swift for Ethereum interactions
+   - KeychainAccess for secure key storage
+   ```swift
+   // Add via Swift Package Manager
+   .package(url: "https://github.com/web3swift-team/web3swift.git", from: "3.0.0")
+   .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2")
+   ```
+
+2. Configuration:
+   ```swift
+   class Web3Service {
+       private let web3: web3
+       private let chainURL: String = "https://solvy.chain/rpc"  // Replace with actual RPC endpoint
+       
+       init() {
+           guard let url = URL(string: chainURL) else {
+               fatalError("Invalid chain URL")
+           }
+           web3 = try! Web3.new(url)
+       }
+   }
+   ```
+
+#### 2. Connection Methods
+1. Establish Connection:
+   ```swift
+   func connect() async throws {
+       // Verify chain connection
+       let networkID = try await web3.net.version()
+       guard networkID == "solvy" else {  // Replace with actual chain ID
+           throw Web3Error.wrongNetwork
+       }
+   }
+   ```
+
+2. Wallet Integration:
+   ```swift
+   func createWallet() throws -> Wallet {
+       let keystore = try! EthereumKeystoreV3(password: "user_password")
+       let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
+       
+       // Store securely in Keychain
+       let keychain = Keychain(service: "com.solvy.keystore")
+       keychain["wallet"] = String(data: keyData, encoding: .utf8)
+       
+       return Wallet(keystore: keystore)
+   }
+   ```
+
+#### 3. Transaction Handling
+1. Send Transaction:
+   ```swift
+   func sendTransaction(to: String, amount: BigUInt) async throws -> String {
+       let wallet = try loadWallet()
+       let transaction = try await web3.eth.sendTransaction(
+           to: EthereumAddress(to)!,
+           value: amount,
+           from: wallet.address
+       )
+       return transaction.hash
+   }
+   ```
+
+2. Monitor Transaction:
+   ```swift
+   func monitorTransaction(hash: String) async throws -> TransactionStatus {
+       let receipt = try await web3.eth.getTransactionReceipt(hash)
+       return receipt.status ? .success : .failed
+   }
+   ```
+
+#### 4. Security Considerations
+1. Private Key Storage:
+   - Use Keychain for secure storage
+   - Never store private keys in UserDefaults or plain text
+   - Implement biometric authentication
+
+2. Transaction Security:
+   - Verify all transaction parameters
+   - Implement transaction signing confirmation
+   - Add rate limiting for sensitive operations
+
+3. Error Handling:
+   ```swift
+   enum Web3Error: Error {
+       case wrongNetwork
+       case transactionFailed
+       case insufficientFunds
+       case unauthorized
+   }
+   ```
+
+#### 5. Integration Points
+1. Dashboard Integration:
+   ```swift
+   class DashboardViewModel: ObservableObject {
+       private let web3Service: Web3Service
+       
+       @Published var balance: String = "0"
+       @Published var transactions: [Transaction] = []
+       
+       func refreshBalance() async {
+           let balanceWei = try? await web3Service.getBalance()
+           balance = Web3.Utils.formatToEth(balanceWei ?? 0)
+       }
+   }
+   ```
+
+2. Transaction Flow:
+   ```swift
+   class TransactionViewModel: ObservableObject {
+       private let web3Service: Web3Service
+       
+       func executeTransaction(amount: String, to: String) async throws {
+           guard let wei = Web3.Utils.parseToBigUInt(amount, units: .eth) else {
+               throw Web3Error.invalidAmount
+           }
+           
+           let hash = try await web3Service.sendTransaction(to: to, amount: wei)
+           try await monitorAndUpdateTransaction(hash: hash)
+       }
+   }
+   ```
+
+Remember:
+- Always test on a test network first
+- Implement proper error handling
+- Keep sensitive data secure
+- Monitor transaction status
+- Provide clear user feedback
 3. Initial Setup Steps:
    a. Prerequisites:
       1. Install Latest Xcode from Mac App Store
@@ -314,6 +448,57 @@ Remember: We'll take this step by step, and you can ask questions anytime! 😊
       2. Choose "Create a new Xcode project"
       3. Select "App" under iOS
       4. Fill in project details:
+#### 6. Testing Integration
+
+1. Unit Tests:
+   ```swift
+   class Web3ServiceTests: XCTestCase {
+       var web3Service: Web3Service!
+       
+       override func setUp() {
+           web3Service = Web3Service()
+       }
+       
+       func testConnection() async throws {
+           // Test chain connection
+           XCTAssertNoThrow(try await web3Service.connect())
+       }
+       
+       func testTransactionFlow() async throws {
+           // Test complete transaction flow
+           let hash = try await web3Service.sendTransaction(
+               to: "test_address",
+               amount: 1000000
+           )
+           let status = try await web3Service.monitorTransaction(hash: hash)
+           XCTAssertEqual(status, .success)
+       }
+   }
+   ```
+
+2. Integration Tests:
+   ```swift
+   class BlockchainIntegrationTests: XCTestCase {
+       func testEndToEndTransaction() async throws {
+           // Test complete flow from UI to blockchain
+           let viewModel = TransactionViewModel()
+           try await viewModel.executeTransaction(
+               amount: "0.1",
+               to: "test_recipient"
+           )
+           
+           // Verify transaction status
+           XCTAssertEqual(viewModel.status, .completed)
+       }
+   }
+   ```
+
+Remember:
+- Use test networks for development
+- Mock blockchain responses in unit tests
+- Test error scenarios
+- Verify transaction confirmation
+- Test UI feedback during transactions
          - Product Name: "SOLVY"
          - Team: Your Apple Developer Team
          - Organization Identifier: "com.solvy"
