@@ -60,3 +60,13 @@ struct ChainConfig {
         current.explorerURL
     }
 }
+enum ChainConfig {
+    static let endpoint = URL(string: "https://solvy.chain/endpoint")!
+    static let chainId = 1 // Replace with actual chain ID
+    
+    #if DEBUG
+    static let isTestnet = true
+    #else
+    static let isTestnet = false
+    #endif
+}

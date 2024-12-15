@@ -34,3 +34,19 @@ enum BlockchainError: Error {
         }
     }
 }
+struct TransactionRequest: Codable {
+    let to: String
+    let amount: Double
+    let chainId: Int
+}
+
+struct TransactionResponse: Codable {
+    let hash: String
+    let status: String
+}
+
+enum TransactionStatus {
+    case pending
+    case completed
+    case failed
+}
