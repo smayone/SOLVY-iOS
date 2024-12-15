@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "SolvyLogo-1024-40.png",
+      "filename" : "SolvyLogo-40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "SolvyLogo-1024-60.png",
+      "filename" : "SolvyLogo-60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "SolvyLogo-1024-58.png",
+      "filename" : "SolvyLogo-58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "SolvyLogo-1024-87.png",
+      "filename" : "SolvyLogo-87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "SolvyLogo-1024-80.png",
+      "filename" : "SolvyLogo-80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "SolvyLogo-1024-120.png",
+      "filename" : "SolvyLogo-120.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "SolvyLogo-1024-120.png",
+      "filename" : "SolvyLogo-120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "SolvyLogo-1024-180.png",
+      "filename" : "SolvyLogo-180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "SolvyLogo-1024-1024.png",
+      "filename" : "SolvyLogo-1024.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
