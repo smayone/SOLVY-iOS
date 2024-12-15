@@ -13,7 +13,7 @@
 ### Dashboard/
 - [x] DashboardView.swift (Main app interface)
 - [x] MetricsCardsView.swift (Financial metrics display)
-- [ ] TransactionListView.swift (List of transactions)
+- [x] TransactionListView.swift (List of transactions)
 
 ### Components/
 - [x] TransactionRow.swift (Individual transaction display)
