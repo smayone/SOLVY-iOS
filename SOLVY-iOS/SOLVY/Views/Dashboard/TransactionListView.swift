@@ -53,8 +53,12 @@ struct TransactionListView: View {
                     .foregroundColor(.secondary)
                 TextField("Search transactions", text: $searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
             }
             .padding(.horizontal)
+            .background(Color(.systemBackground))
+            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
             
             // Filter Pills
             ScrollView(.horizontal, showsIndicators: false) {
@@ -88,7 +92,22 @@ struct TransactionListView: View {
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.horizontal)
             
-            if viewModel.isLoading {
+            if let error = viewModel.error {
+                VStack(spacing: 12) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: 48))
+                        .foregroundColor(.red)
+                    Text(error)
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                    Button("Try Again") {
+                        viewModel.fetchTransactions()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if viewModel.isLoading && filteredTransactions.isEmpty {
                 LoadingView("Loading transactions...")
             } else if filteredTransactions.isEmpty {
                 VStack(spacing: 12) {
@@ -107,6 +126,10 @@ struct TransactionListView: View {
                     TransactionRow(transaction: transaction)
                         .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 }
+                .refreshable {
+                    await viewModel.fetchTransactions()
+                }
+                .listStyle(.plain)
             }
         }
         .navigationTitle("Transactions")
