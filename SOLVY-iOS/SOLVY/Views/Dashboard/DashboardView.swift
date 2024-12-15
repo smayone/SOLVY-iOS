@@ -39,9 +39,22 @@ struct DashboardView: View {
                 .cornerRadius(10)
                 .shadow(radius: 2)
                 
-                // Transaction List
-                List(transactionViewModel.transactions) { transaction in
-                    TransactionRow(transaction: transaction)
+                // Recent Transactions with "View All" Button
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text("Recent Transactions")
+                            .font(.headline)
+                        Spacer()
+                        NavigationLink("View All") {
+                            TransactionListView()
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                    }
+                    
+                    List(transactionViewModel.transactions.prefix(5)) { transaction in
+                        TransactionRow(transaction: transaction)
+                    }
                 }
                 
                 // New Transaction Button

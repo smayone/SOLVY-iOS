@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents different types of transactions in the system
-enum TransactionType: String, Codable {
+enum TransactionType: String, Codable, CaseIterable {
     case deposit
     case withdrawal
     case transfer

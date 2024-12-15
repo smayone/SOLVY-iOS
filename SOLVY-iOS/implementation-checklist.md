@@ -12,7 +12,7 @@
 
 ### Dashboard/
 - [x] DashboardView.swift (Main app interface)
-- [ ] MetricsCardsView.swift (Financial metrics display)
+- [x] MetricsCardsView.swift (Financial metrics display)
 - [ ] TransactionListView.swift (List of transactions)
 
 ### Components/
@@ -32,13 +32,12 @@
 
 ## Config/
 - [x] ChainConfig.swift (Blockchain endpoints)
-- [ ] AppConfig.swift (App-wide constants)
+- [x] AppConfig.swift (App-wide constants)
 
-## Files to Implement Next:
-1. Web3Service.swift - Critical for blockchain integration
-2. AuthViewModel.swift - Required for authentication flow
-3. MetricsCardsView.swift - For financial data display
-4. AppConfig.swift - For configuration constants
-5. TransactionListView.swift - For transaction management
+### Files to Implement Next:
+1. TransactionListView.swift - For transaction management
+2. Complete any remaining unit tests
+3. Add documentation for implemented features
+4. Implement proper error handling and recovery scenarios
 
-Would you like me to start implementing these remaining files one by one?
+Would you like me to implement TransactionListView.swift next, or would you prefer to focus on something else?
