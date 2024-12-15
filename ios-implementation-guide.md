@@ -117,22 +117,109 @@ struct Transaction: Codable {
 4. Implement dynamic type for accessibility
 
 ## Web3 Integration Guide
-This guide will help you understand how to connect your SOLVY app to the blockchain world. We'll explain everything step by step, in simple terms.
+This guide explains how SOLVY connects to the blockchain through solvy.chain. Here's a detailed breakdown of each component and how they work together:
 
-### What You Need to Know First
+### 1. Chain Configuration (ChainConfig.swift)
 
-#### What is Web3? 🌐
-Think of Web3 as a new kind of internet where:
-- You own your data (like your profile and transactions)
-- No single company controls everything
-- Everything is more secure and transparent
-- You can prove you own digital things (like your account)
+```swift
+enum Chain: String {
+    case testnet
+    case mainnet
+    
+    var endpoint: URL {
+        switch self {
+        case .testnet:
+            return URL(string: "https://testnet.solvy.chain/endpoint")!
+        case .mainnet:
+            return URL(string: "https://solvy.chain/endpoint")!
+        }
+    }
+}
 
-#### What is solvy.chain? 🔗
-- It's like a website address (like www.google.com) but for blockchain
-- Instead of .com, it ends with .chain
-- It's YOUR special address for the SOLVY app
-- It's more secure than regular website addresses
+struct ChainConfig {
+    #if DEBUG
+    static let current: Chain = .testnet  // Use testnet for development
+    #else
+    static let current: Chain = .mainnet  // Use mainnet for production
+    #endif
+}
+```
+
+This configuration:
+- Defines both testnet and mainnet endpoints
+- Automatically switches based on build configuration
+- Provides secure access to chain endpoints
+
+### 2. Blockchain Service (Web3Service.swift)
+
+```swift
+class Web3Service {
+    private let chainURL: URL
+    private var apiKey: String?
+    
+    // Initialize with correct chain endpoint
+    init(chainURL: URL = ChainConfig.endpoint) {
+        self.chainURL = chainURL
+        setupApiKey()
+    }
+    
+    // Connect to blockchain
+    func connect() async throws {
+        print("Connecting to blockchain at \(chainURL)")
+        // Implementation details in Web3Service.swift
+    }
+    
+    // Send test transaction
+    func sendTransaction(to: String, amount: Double) async throws -> String {
+        // Create and send transaction
+        // Returns transaction hash
+    }
+}
+```
+
+This service:
+- Handles all blockchain interactions
+- Manages secure connections
+- Processes transactions
+- Provides status updates
+
+### 3. Dashboard Integration (DashboardView.swift)
+
+```swift
+struct DashboardView: View {
+    @State private var chainStatus: String = "Not Connected"
+    
+    var body: some View {
+        VStack {
+            // Status Indicator
+            HStack {
+                Circle()
+                    .fill(chainStatus == "Connected" ? Color.green : Color.red)
+                    .frame(width: 10, height: 10)
+                Text(chainStatus)
+            }
+            
+            // Test Connection Button
+            Button("Test Chain") {
+                Task {
+                    do {
+                        let web3Service = Web3Service()
+                        try await web3Service.connect()
+                        chainStatus = "Connected"
+                    } catch {
+                        chainStatus = "Failed"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+The dashboard:
+- Shows real-time connection status
+- Provides test functionality
+- Displays transaction history
 
 ### How We'll Add This to Your App
 
@@ -747,6 +834,29 @@ Remember:
    - Show loading states
    - Display error messages
 
+### Testing Your Integration
+
+1. Build and Run:
+   - Open the project in Xcode
+   - Select a simulator (e.g., iPhone 14)
+   - Click Run (⌘R)
+   - Watch the console for connection logs
+
+2. Visual Indicators:
+   - Green dot: Successfully connected to solvy.chain
+   - Red dot: Not connected or connection failed
+   - Transaction hash appears in console after test transaction
+
+3. Troubleshooting:
+   - Connection fails: Verify ChainConfig.swift endpoints
+   - Red status dot: Check console for detailed error messages
+   - Missing transaction hash: Verify Web3Service implementation
+
+Remember:
+- We're using testnet by default in development
+- All transactions are test transactions
+- Check the console log for detailed feedback
+- Ask for help if you need it! 😊
 2. ViewModels
    - Process user actions
    - Format data for display
@@ -764,19 +874,56 @@ Remember:
    - Blockchain interaction
    - Error handling
 
-### Testing the Blockchain Integration:
+### Setting Up the iOS Project:
 
-1. Opening the Project:
+1. Creating New Project:
    - Open Xcode
-   - Navigate to the "SOLVY-iOS" folder
-   - Double-click "SOLVY.xcodeproj"
-   - Wait for project indexing to complete
+   - Choose "Create a new Xcode project"
+   - Select "App" under iOS templates
+   - Configure project:
+     * Product Name: "SOLVY"
+     * Team: Your Apple Developer Team
+     * Organization Identifier: "com.solvy"
+     * Bundle Identifier: "XC S A -Nathan SS-sub-Project"
+     * Interface: SwiftUI
+     * Language: Swift
+     * Include Tests: Yes
+   - Choose location: Create new folder named "SOLVY-iOS"
+
+2. Verify Project Structure:
+   After creation, you should see:
+   ```
+   SOLVY-iOS/
+   ├── SOLVY/
+   │   ├── Views/
+   │   │   └── ContentView.swift
+   │   ├── SOLVYApp.swift
+   │   └── Assets.xcassets
+   └── SOLVY.xcodeproj
+   ```
 
 2. Running the Preview:
    - In the Navigator (left sidebar), open Views > Dashboard > DashboardView.swift
    - Click the "Resume" button in the preview canvas on the right
    - You should see:
      * A red/green status dot indicating blockchain connection
+3. Implementing Blockchain Integration:
+   Once project is created:
+   - Add Web3Service.swift for blockchain connectivity
+   - Implement DashboardView.swift with status indicator
+   - Add test transaction functionality
+   - Configure solvy.chain endpoints in ChainConfig.swift
+
+4. Testing Integration:
+   - Build and run the project
+   - Check for green status indicator
+   - Test transaction with "Test Chain" button
+   - Verify transaction hash in console
+
+5. Common Issues:
+   - If Xcode indexing is slow: Clean build folder (Shift + Cmd + K)
+   - If preview doesn't load: Clean build and restart Xcode
+   - For connection issues: Check ChainConfig.swift settings
      * A "Test Chain" button
      * Transaction metrics and charts
 
