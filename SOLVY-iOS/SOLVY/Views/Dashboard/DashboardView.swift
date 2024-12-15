@@ -2,72 +2,71 @@ import SwiftUI
 
 struct DashboardView: View {
     @StateObject private var viewModel = TransactionViewModel()
-    @State private var chainStatus: String = "Not Connected"
-    @State private var isConnecting = false
+    @State private var showingNewTransaction = false
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                // Blockchain Status
-                HStack {
-                    Circle()
-                        .fill(chainStatus == "Connected" ? Color.green : Color.red)
-                        .frame(width: 10, height: 10)
-                    Text(chainStatus)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.horizontal)
-                
                 // Header
-                HStack {
-                    Text("Dashboard")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            do {
-                                let web3Service = Web3Service()
-                                try await web3Service.connect()
-                                // Test transaction with small amount
-                                let hash = try await web3Service.sendTransaction(
-                                    to: "test_wallet",
-                                    amount: 0.001
-                                )
-                                print("Transaction sent: \(hash)")
-                            } catch {
-                                print("Blockchain error: \(error)")
-                            }
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: "link.circle.fill")
-                            Text("Test Chain")
-                        }
-                        .font(.title2)
-                    }
+                Text("SOLVY")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                // Transaction Summary
+                VStack(spacing: 10) {
+                    Text("Total Volume: $\(String(format: "%.2f", viewModel.summary.totalVolume))")
+                        .font(.headline)
+                    Text("Transactions: \(viewModel.summary.totalTransactions)")
+                        .font(.subheadline)
                 }
-                .padding(.horizontal)
+                .padding()
+                .background(Color(.systemBackground))
+                .cornerRadius(10)
+                .shadow(radius: 2)
                 
-                // Metrics Cards
-                MetricsCardsView(summary: viewModel.summary)
+                // Transaction List
+                List(viewModel.transactions) { transaction in
+                    TransactionRow(transaction: transaction)
+                }
                 
-                // Chart
-                TransactionChartView(transactions: viewModel.transactions)
-                    .frame(height: 200)
-                    .padding()
-                
-                // Transactions List
-                TransactionListView(transactions: viewModel.transactions)
-                
-                Spacer()
+                // New Transaction Button
+                Button(action: { showingNewTransaction = true }) {
+                    Label("New Transaction", systemImage: "plus.circle.fill")
+                        .font(.headline)
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .navigationBarHidden(true)
+            .padding()
             .onAppear {
                 viewModel.fetchTransactions()
             }
+            .navigationBarHidden(true)
         }
+    }
+}
+
+struct TransactionRow: View {
+    let transaction: Transaction
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(transaction.type.rawValue.capitalized)
+                    .font(.headline)
+                if let description = transaction.description {
+                    Text(description)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Spacer()
+            
+            Text("$\(String(format: "%.2f", transaction.amount))")
+                .font(.headline)
+                .foregroundColor(transaction.type == .deposit ? .green : .red)
+        }
+        .padding(.vertical, 8)
     }
 }
 

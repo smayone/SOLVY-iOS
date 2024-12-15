@@ -22,18 +22,24 @@ class TransactionViewModel: ObservableObject {
         isLoading = true
         error = nil
         
-        networkService.fetchTransactions()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.error = error.localizedDescription
-                }
-            } receiveValue: { [weak self] transactions in
-                self?.transactions = transactions
-                self?.updateSummary()
-            }
-            .store(in: &cancellables)
+        // Implementation will be added when we set up the NetworkService
+        // This is a placeholder for now
+        self.mockTransactions()
+    }
+    
+    private func mockTransactions() {
+        // Temporary mock data for testing UI
+        let mockTransactions = [
+            Transaction(id: 1, userId: 1, amount: 100.0, type: .deposit, 
+                       status: .completed, description: "Initial deposit", 
+                       createdAt: Date()),
+            Transaction(id: 2, userId: 1, amount: 50.0, type: .withdrawal, 
+                       status: .completed, description: "ATM withdrawal", 
+                       createdAt: Date().addingTimeInterval(-86400))
+        ]
+        
+        self.transactions = mockTransactions
+        self.updateSummary()
     }
     
     private func updateSummary() {
@@ -45,23 +51,5 @@ class TransactionViewModel: ObservableObject {
             totalVolume: total,
             avgAmount: avg
         )
-    }
-    
-    func createTransaction(amount: Double, type: TransactionType, description: String?) {
-        isLoading = true
-        error = nil
-        
-        networkService.createTransaction(amount: amount, type: type, description: description)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.error = error.localizedDescription
-                }
-            } receiveValue: { [weak self] transaction in
-                self?.transactions.insert(transaction, at: 0)
-                self?.updateSummary()
-            }
-            .store(in: &cancellables)
     }
 }
