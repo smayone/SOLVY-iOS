@@ -1,22 +1,37 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @StateObject private var viewModel = TransactionViewModel()
+    @StateObject private var transactionViewModel = TransactionViewModel()
+@StateObject private var dashboardViewModel = DashboardViewModel()
     @State private var showingNewTransaction = false
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                // Header
-                Text("SOLVY")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                // Header with Chain Status
+                HStack {
+                    Text("SOLVY")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    // Chain Status Indicator
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(chainStatusColor)
+                            .frame(width: 10, height: 10)
+                        Text(dashboardViewModel.chainStatus.description)
+                            .font(.caption)
+                    }
+                    .padding(.horizontal)
+                }
                 
                 // Transaction Summary
                 VStack(spacing: 10) {
-                    Text("Total Volume: $\(String(format: "%.2f", viewModel.summary.totalVolume))")
+                    Text("Total Volume: $\(String(format: "%.2f", transactionViewModel.summary.totalVolume))")
                         .font(.headline)
-                    Text("Transactions: \(viewModel.summary.totalTransactions)")
+                    Text("Transactions: \(transactionViewModel.summary.totalTransactions)")
                         .font(.subheadline)
                 }
                 .padding()
@@ -25,7 +40,7 @@ struct DashboardView: View {
                 .shadow(radius: 2)
                 
                 // Transaction List
-                List(viewModel.transactions) { transaction in
+                List(transactionViewModel.transactions) { transaction in
                     TransactionRow(transaction: transaction)
                 }
                 
@@ -62,6 +77,17 @@ struct TransactionRow: View {
             
             Spacer()
             
+    // Chain status color
+    private var chainStatusColor: Color {
+        switch dashboardViewModel.chainStatus {
+        case .connected:
+            return .green
+        case .disconnected:
+            return .red
+        case .error:
+            return .orange
+        }
+    }
             Text("$\(String(format: "%.2f", transaction.amount))")
                 .font(.headline)
                 .foregroundColor(transaction.type == .deposit ? .green : .red)
